@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Simply A Calculator</title>
+  <link rel='icon' href='https://cdn-icons-png.flaticon.com/128/548/548353.png' type='image/x-icon'>
+  <meta name="viewport" content="width=device-width">
+  <meta content='Simply A Calculator' property='og:title' />
+  <meta content='Calculate Simple Stuffs' property='og:description' />
+  <meta content='/' property='og:url' />
+  <meta property='og:site_name' content='Countdown'>
+  <meta content='https://i.gifer.com/7gP8.gif' property='og:image' />
+  <meta content='#2f3136' name='theme-color' />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #f2f2f2;
+      font-family: sans-serif;
+    }
+
+    #calculator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    #textcalcu {
+      font-size: 5vh;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 10vh;
+      height: 10vh;
+      padding: 10px;
+      font-size: 5vh;
+      border: none;
+      border-radius: 5px;
+      background-color: #e0ebef;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #d0d8e4;
+    }
+
+
+    #history,
+    #about {
+      overflow: auto;
+      text-align: center;
+      word-wrap: break-word;
+      display: none;
+      height: 200px;
+      border: 1px solid #ccc;
+      font-size: 3.5vh;
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      background-color: #e0ebef;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+    }
+
+
+    #btfit {
+      width: fit-content;
+      font-size: 3.5vh;
+      height: fit-content;
+      margin: 10px;
+      max-width: 30vh;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="calculator">
+    <input placeholder="Simply A Calculator" type="text" id="textcalcu" readonly>
+
+    <div class="button-row">
+      <button onclick="show('about')">?</button>
+      <button onclick="show('history')">H</button>
+      <button id="AC" onclick="clicked(id)">AC</button>
+      <button onclick="clicked(id)" id="C">C</button>
+
+    </div>
+
+    <div class="button-row">
+      <button onclick="clicked(id)" id="7">7</button>
+      <button onclick="clicked(id)" id="8">8</button>
+      <button onclick="clicked(id)" id="9">9</button>
+      <button onclick="clicked(id)" id="÷">÷</button>
+    </div>
+    <div class="button-row">
+      <button onclick="clicked(id)" id="4">4</button>
+      <button onclick="clicked(id)" id="5">5</button>
+      <button onclick="clicked(id)" id="6">6</button>
+      <button onclick="clicked(id)" id="x">x</button>
+    </div>
+    <div class="button-row">
+      <button onclick="clicked(id)" id="1">1</button>
+      <button onclick="clicked(id)" id="2">2</button>
+      <button onclick="clicked(id)" id="3">3</button>
+      <button onclick="clicked(id)" id="-">-</button>
+    </div>
+    <div class="button-row">
+      <button onclick="clicked(id)" id="0">0</button>
+      <button onclick="clicked(id)" id=".">.</button>
+      <button onclick="clicked(id)" id="equal">=</button>
+      <button onclick="clicked(id)" id="+">+</button>
+    </div>
+
+    <br>
+
+    <div id="history">
+      <button id="btfit" onclick="show('history')">X History </button><br>
+    </div>
+
+    <div id="about" style="display: initial;">
+      <button id="btfit" onclick="show('about')">X About </button><br><button id="btfit">A simple calculator to
+        calculate simple stuffs</button> <br>
+      <button id="btfit">Submitted by Tabigs</button> <br>
+      <button id="btfit">Submitted to Mr. Ryan</button>
+    </div>
+
+  </div>
+
+  <script>
+
+    function changeText(text) {
+      var ele = document.getElementById("textcalcu");
+      ele.value = text;
+      ele.scrollLeft = ele.scrollWidth;
+      ele.scrollIntoView();
+    }
+
+    function show(id) {
+      const Div = document.getElementById(id);
+      Div.style.visibility = Div.style.visibility === "visible" ? "hidden" : "visible";
+    }
+
+    var operations = {
+      "+": "+",
+      "-": "-",
+      "x": "*",
+      "÷": "/"
+    }
+    var valuecompute = "";
+
+    function clicked(id) {
+      if (id == "equal") {calculateit(); return;};
+
+      valuecompute += id;
+
+
+      if (id == "C") {
+
+        valuecompute = valuecompute.slice(0, -2);
+      }
+
+      if (id == "AC") valuecompute = "";
+
+      changeText(valuecompute);
+
+
+    }
+    function historycalc(equation) {
+
+      changeText(equation);
+      valuecompute = equation;
+
+
+    }
+
+    function calculateit() {
+
+      if (valuecompute == "") return;
+      var ele = document.getElementById("history");
+      var content = valuecompute;
+      ele.style.display = "initial";
+      var lasthistory = valuecompute;
+      for (op in operations) valuecompute = valuecompute.replaceAll(op, operations[op]);
+      var result;
+      try {result = eval(valuecompute);} catch (err) {result = 'Error?!'; console.log(err); console.log(valuecompute)}
+
+      valuecompute = result.toString();
+      changeText(result);
+      content += " = " + result;
+      ele.innerHTML += `<button id='btfit' onclick='historycalc("${lasthistory}");show("history")'>` + content + "</button><br>";
+      if (result == 'Error?!') valuecompute = "";
+
+
+    }
+
+  </script>
+</body>
+
+</html>
