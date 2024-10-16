@@ -205,7 +205,9 @@
       var content = valuecompute;
       ele.style.display = "initial";
       var lasthistory = valuecompute;
-      for (op in operations) valuecompute = valuecompute.replaceAll(op, operations[op]);
+      for (op in operations) {
+        for (let i = 0; i < valuecompute.length; i++) valuecompute = valuecompute.replace(op, operations[op]);
+      }
       var result;
       try {result = eval(valuecompute);} catch (err) {result = 'Error?!'; console.log(err); console.log(valuecompute)}
 
